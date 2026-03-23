@@ -8,3 +8,10 @@ export interface Product {
     stock: number;
     imageUrl?: string;
 }
+
+export interface ProductFilter {
+  search?: string;
+  category?: string;
+  inStock?: boolean;
+  sort?: 'asc' | 'desc';
+}
