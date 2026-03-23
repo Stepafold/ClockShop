@@ -6,3 +6,11 @@ export interface User {
     phone?: string;
     createdAt: string;
 }
+
+export interface Session {
+  token: string;
+  userId: string;
+  expiresAt: string;
+}
+
+export type UserWithoutPassword = Omit<User, 'passwordHash'>;
