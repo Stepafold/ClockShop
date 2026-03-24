@@ -1,14 +1,23 @@
-import { Product } from './product';
+import type { Product } from './product';
 
-export interface CartItem {
+export interface CartItemStorage {
   productId: string;
-  product: Product;
   quantity: number;
   addedAt: string;
+}
+
+export interface CartItem extends CartItemStorage {
+  product: Product;
 }
 
 export interface Cart {
   userId: string;
   items: CartItem[];
+  updatedAt: string;
+}
+
+export interface CartStorage {
+  userId: string;
+  items: CartItemStorage[];
   updatedAt: string;
 }
