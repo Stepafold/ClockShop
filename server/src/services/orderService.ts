@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { Order } from '@shared/types';
+import type { Order } from '../shared/types/order';
 
 const ORDERS_FILE = path.join(__dirname, '../../data/orders.json');
 

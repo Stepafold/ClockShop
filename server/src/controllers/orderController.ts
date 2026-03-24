@@ -1,27 +1,32 @@
 import { Request, Response } from 'express';
 import { orderService } from '../services/orderService';
-import { Order } from '@shared/types';
-
+import { cartService } from '../services/cartService';
+import type { Order } from '../shared/types/order';
+import type { CartItem } from '../shared/types/cart';
 
 export const createOrder = async (req: Request, res: Response) => {
   try {
-    const { userId, address, phone, email, paymentMethod, items } = req.body;
-
+    const userId = req.user?.id;
     if (!userId) {
-      return res.status(400).json({ message: 'userId is required' });
+      return res.status(401).json({ message: 'Unauthorized' });
     }
+
+    const { address, phone, email, paymentMethod } = req.body;
+
     if (!address || !phone || !email || !paymentMethod) {
       return res.status(400).json({ message: 'Missing required fields: address, phone, email, paymentMethod' });
     }
-    if (!items || !Array.isArray(items) || items.length === 0) {
-      return res.status(400).json({ message: 'Items array is required and must not be empty' });
+
+    const cart = await cartService.getCart(userId);
+    if (!cart || !cart.items || cart.items.length === 0) {
+      return res.status(400).json({ message: 'Cart is empty' });
     }
 
-    const total = items.reduce((sum: number, item: any) => sum + (item.priceAtOrder || item.product?.price || 0) * item.quantity, 0);
+    const total = cart.items.reduce((sum: number, item: CartItem) => sum + item.product.price * item.quantity, 0);
 
     const orderData: Omit<Order, 'id'> = {
       userId,
-      items,
+      items: cart.items,
       address,
       phone,
       email,
@@ -33,8 +38,7 @@ export const createOrder = async (req: Request, res: Response) => {
 
     const newOrder = await orderService.create(orderData);
 
-    // TODO: после реализации cartService – очистить корзину пользователя
-    // await cartService.clearCart(userId);
+    await cartService.clearCart(userId);
 
     res.status(201).json(newOrder);
   } catch (error) {
@@ -45,10 +49,11 @@ export const createOrder = async (req: Request, res: Response) => {
 
 export const getOrders = async (req: Request, res: Response) => {
   try {
-    const userId = req.query.userId as string;
+    const userId = req.user?.id;
     if (!userId) {
-      return res.status(400).json({ message: 'userId query parameter is required' });
+      return res.status(401).json({ message: 'Unauthorized' });
     }
+
     const orders = await orderService.getByUserId(userId);
     res.json(orders);
   } catch (error) {
@@ -59,10 +64,18 @@ export const getOrders = async (req: Request, res: Response) => {
 
 export const getOrderById = async (req: Request, res: Response) => {
   try {
+    const userId = req.user?.id;
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
     const { id } = req.params;
     const order = await orderService.getById(id);
     if (!order) {
       return res.status(404).json({ message: 'Order not found' });
+    }
+    if (order.userId !== userId) {
+      return res.status(403).json({ message: 'Access denied' });
     }
     res.json(order);
   } catch (error) {

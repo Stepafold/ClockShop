@@ -16,7 +16,10 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "moduleResolution": "node",
-    "types": ["node"]
+    "baseUrl": ".",
+    "paths": {
+      "@shared/*": ["src/shared/types/*"]
+    }
   },
   "include": ["src/**/*", "../shared/**/*"],
   "exclude": ["node_modules", "dist"]
