@@ -78,6 +78,14 @@ export const api = {
 		return handleResponse<Order>(response);
 	},
 
+	async getUserOrders(): Promise<Order[]> {
+		const response = await fetch(`${API_BASE}/orders`, {
+			credentials: 'include'
+		});
+		if (!response.ok) return [];
+		return handleResponse<Order[]>(response);
+	},
+
 	async register(userData: {
 		email: string;
 		password: string;

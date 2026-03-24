@@ -4,7 +4,7 @@ import { cartService } from '../services/cartService';
 export const cartController = {
   async getCart(req: Request, res: Response): Promise<void> {
     try {
-      const userId = req.userId;
+      const userId = req.user?.id;
 
       if (!userId) {
         res.status(401).json({ message: 'User not authenticated' });
@@ -21,7 +21,7 @@ export const cartController = {
 
   async addToCart(req: Request, res: Response): Promise<void> {
     try {
-      const userId = req.userId;
+      const userId = req.user?.id;
       const { productId, quantity } = req.body;
 
       if (!userId) {
@@ -50,8 +50,9 @@ export const cartController = {
 
   async updateCartItem(req: Request, res: Response): Promise<void> {
     try {
-      const userId = req.userId;
-      const { productId, quantity } = req.body;
+      const userId = req.user?.id;
+      const { productId } = req.params;
+      const { quantity } = req.body;
 
       if (!userId) {
         res.status(401).json({ message: 'User not authenticated' });
@@ -79,7 +80,7 @@ export const cartController = {
 
   async removeFromCart(req: Request, res: Response): Promise<void> {
     try {
-      const userId = req.userId;
+      const userId = req.user?.id;
       const { productId } = req.params;
 
       if (!userId) {
@@ -103,7 +104,7 @@ export const cartController = {
 
   async clearCart(req: Request, res: Response): Promise<void> {
     try {
-      const userId = req.userId;
+      const userId = req.user?.id;
 
       if (!userId) {
         res.status(401).json({ message: 'User not authenticated' });

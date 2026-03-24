@@ -22,8 +22,10 @@ export class CartItem {
 		try {
 			await api.updateCartItem(this.item.productId, newQuantity);
 			this.onUpdate();
-		} catch (error) {
-			alert('Ошибка обновления количества');
+		} catch (error: any) {
+			console.error('Update cart error:', error);
+			alert('Ошибка обновления количества. Попробуйте позже.');
+			this.onUpdate();
 		}
 	}
 

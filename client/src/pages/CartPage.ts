@@ -83,7 +83,13 @@ export class CartPage {
 	}
 
 	private async refresh(): Promise<void> {
-		await this.loadCart();
-		this.renderCart();
+		try {
+			await this.loadCart();
+			this.renderCart();
+		} catch (error: any) {
+			if (error.message?.includes('401') || error.message?.includes('Unauthorized')) {
+				new Router(this.appContainer).navigate('/auth');
+			}
+		}
 	}
 }

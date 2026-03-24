@@ -1,25 +1,86 @@
 [
   {
-    "id": "1774355021783",
-    "userId": "user123",
+    "id": "1774362124618",
+    "userId": "1774361419656",
+    "items": [
+      {
+        "productId": "2",
+        "quantity": 1,
+        "addedAt": "2026-03-24T14:21:46.078Z",
+        "product": {
+          "id": "2",
+          "name": "Casio G-Shock",
+          "description": "Durable digital watch with shock resistance, 200m water resistance.",
+          "price": 120,
+          "category": "Спорт",
+          "inStock": true,
+          "stock": 20,
+          "imageUrl": "/img/casio-gshock.jpg"
+        }
+      }
+    ],
+    "address": "42 ул. Рафиева",
+    "phone": "+375299615774",
+    "email": "arseniyserzhan@icloud.com",
+    "paymentMethod": "card",
+    "total": 120,
+    "status": "pending",
+    "createdAt": "2026-03-24T14:22:04.618Z"
+  },
+  {
+    "id": "1774362526213",
+    "userId": "1774361419656",
+    "items": [
+      {
+        "productId": "2",
+        "quantity": 3,
+        "addedAt": "2026-03-24T14:28:24.263Z",
+        "product": {
+          "id": "2",
+          "name": "Casio G-Shock",
+          "description": "Durable digital watch with shock resistance, 200m water resistance.",
+          "price": 120,
+          "category": "Спорт",
+          "inStock": true,
+          "stock": 20,
+          "imageUrl": "/img/casio-gshock.jpg"
+        }
+      }
+    ],
+    "address": "42 ул. Рафиева",
+    "phone": "+375 29 961 57 74",
+    "email": "arseniyserzhan@icloud.com",
+    "paymentMethod": "cash",
+    "total": 360,
+    "status": "pending",
+    "createdAt": "2026-03-24T14:28:46.213Z"
+  },
+  {
+    "id": "1774362668810",
+    "userId": "1774361419656",
     "items": [
       {
         "productId": "1",
+        "quantity": 3,
+        "addedAt": "2026-03-24T14:30:34.606Z",
         "product": {
           "id": "1",
-          "name": "Тестовые часы",
-          "price": 100
-        },
-        "quantity": 2,
-        "priceAtOrder": 100
+          "name": "Rolex Submariner",
+          "description": "Classic luxury diver watch, automatic movement, water-resistant to 300m.",
+          "price": 8500,
+          "category": "Люкс",
+          "inStock": true,
+          "stock": 5,
+          "imageUrl": "/img/rolex-submariner.jpg"
+        }
       }
     ],
-    "address": "ул. Тестовая, д.1",
-    "phone": "+1234567890",
-    "email": "test@example.com",
+    "address": "42 ул. Рафиева",
+    "phone": "+375 33 asdfasf",
+    "email": "arseniyserzhan@icloud.com",
     "paymentMethod": "card",
-    "total": 200,
+    "total": 25500,
     "status": "pending",
-    "createdAt": "2026-03-24T12:23:41.777Z"
+    "createdAt": "2026-03-24T14:31:08.810Z"
   }
 ]

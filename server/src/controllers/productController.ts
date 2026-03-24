@@ -31,7 +31,7 @@ export const productController = {
         return;
       }
 
-      const product = await productsDB.getById(id);
+      const product = await productsDB.findById(id);
 
       if (!product) {
         res.status(404).json({ message: 'Product not found' });

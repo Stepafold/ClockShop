@@ -31,69 +31,102 @@ export class DeliveryPage {
 			return;
 		}
 
+		this.container.innerHTML = `
+			<div style="display: flex; gap: 2rem; margin-top: 2rem;">
+				<div style="flex: 1;">
+					<h2>Оформление доставки</h2>
+					<div id="form-container"></div>
+				</div>
+				<div style="flex: 1;">
+					<h2>История заказов</h2>
+					<div id="orders-container" style="min-height: 200px;"></div>
+				</div>
+			</div>
+		`;
+
+		const formContainer = this.container.querySelector('#form-container') as HTMLElement;
+		const ordersContainer = this.container.querySelector('#orders-container') as HTMLElement;
+
 		const cart = await api.getCart();
 		if (!cart.items.length) {
-			this.container.innerHTML = '<div class="error">Корзина пуста. <a href="/" data-link>Вернуться на главную</a></div>';
-			const link = this.container.querySelector('[data-link]');
-			if (link) {
-				link.addEventListener('click', (e) => {
-					e.preventDefault();
-					new Router(this.appContainer).navigate('/');
-				});
-			}
-			return;
+			formContainer.innerHTML = '<p style="color: #999;">Корзина пуста. Добавьте товары перед оформлением.</p>';
+		} else {
+			const form = document.createElement('form');
+			form.id = 'deliveryForm';
+			form.innerHTML = `
+				<div class="form-group">
+					<label for="address">Адрес доставки</label>
+					<input type="text" id="address" required>
+				</div>
+				<div class="form-group">
+					<label for="phone">Телефон</label>
+					<input type="tel" id="phone" required>
+				</div>
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input type="email" id="email" required>
+				</div>
+				<div class="form-group">
+					<label>Способ оплаты</label>
+					<select id="paymentMethod">
+						<option value="card">Банковская карта</option>
+						<option value="cash">Наличными при получении</option>
+					</select>
+				</div>
+				<button type="submit" id="submitOrder">Оформить заказ</button>
+				<div id="message" style="margin-top: 1rem;"></div>
+			`;
+			formContainer.appendChild(form);
+			this.attachFormHandler(form, ordersContainer);
 		}
 
-		this.renderForm();
+		await this.renderOrders(ordersContainer);
 	}
 
-	private renderForm(): void {
-		this.container.innerHTML = `
-            <h2>Оформление доставки</h2>
-            <form id="deliveryForm" data-delivery>
-                <div class="form-group">
-                    <label for="address">Адрес доставки</label>
-                    <input type="text" id="address" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Телефон</label>
-                    <input type="tel" id="phone" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" required>
-                </div>
-                <div class="form-group">
-                    <label>Способ оплаты</label>
-                    <select id="paymentMethod">
-                        <option value="card">Банковская карта</option>
-                        <option value="cash">Наличными при получении</option>
-                    </select>
-                </div>
-                <button type="submit" id="submitOrder">Оформить заказ</button>
-            </form>
-            <div id="message"></div>
-        `;
+	private async renderOrders(container: HTMLElement): Promise<void> {
+		try {
+			const orders = await api.getUserOrders();
+			if (orders.length === 0) {
+				container.innerHTML = '<p style="color: #999;">У вас ещё нет заказов</p>';
+				return;
+			}
 
-		const form = this.container.querySelector('#deliveryForm') as HTMLFormElement;
-		const messageDiv = this.container.querySelector('#message') as HTMLElement;
+			let html = '<div style="display: flex; flex-direction: column; gap: 1rem;">';
+			for (const order of orders) {
+				html += `
+					<div style="border: 1px solid #ddd; padding: 1rem; border-radius: 4px;">
+						<p><strong>№ ${order.id}</strong> - ${order.status}</p>
+						<p>Сумма: ${order.total} ₽</p>
+						<p style="font-size: 0.9em; color: #666;">${new Date(order.createdAt).toLocaleDateString('ru-RU')}</p>
+					</div>
+				`;
+			}
+			html += '</div>';
+			container.innerHTML = html;
+		} catch (error) {
+			container.innerHTML = '<p style="color: red;">Ошибка загрузки заказов</p>';
+		}
+	}
 
+	private attachFormHandler(form: HTMLFormElement, ordersContainer: HTMLElement): void {
+		const messageDiv = form.querySelector('#message') as HTMLElement;
 		form.addEventListener('submit', async (e) => {
 			e.preventDefault();
-			const address = (document.getElementById('address') as HTMLInputElement).value;
-			const phone = (document.getElementById('phone') as HTMLInputElement).value;
-			const email = (document.getElementById('email') as HTMLInputElement).value;
-			const paymentMethod = (document.getElementById('paymentMethod') as HTMLSelectElement).value;
+			const address = (form.querySelector('#address') as HTMLInputElement).value;
+			const phone = (form.querySelector('#phone') as HTMLInputElement).value;
+			const email = (form.querySelector('#email') as HTMLInputElement).value;
+			const paymentMethod = (form.querySelector('#paymentMethod') as HTMLSelectElement).value;
 
 			try {
 				await api.createOrder({ address, phone, email, paymentMethod });
-				messageDiv.innerHTML = '<div class="success">Заказ успешно оформлен! Мы свяжемся с вами.</div>';
+				messageDiv.innerHTML = '<div class="success">Заказ успешно оформлен!</div>';
 				form.reset();
+				await this.renderOrders(ordersContainer);
 				setTimeout(() => {
-					new Router(this.appContainer).navigate('/');
+					window.location.href = '/';
 				}, 2000);
 			} catch (error) {
-				messageDiv.innerHTML = '<div class="error">Ошибка оформления заказа. Попробуйте позже.</div>';
+				messageDiv.innerHTML = '<div class="error">Ошибка оформления заказа</div>';
 			}
 		});
 	}
