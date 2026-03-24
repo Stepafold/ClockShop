@@ -7,7 +7,7 @@
     "category": "Luxury",
     "inStock": true,
     "stock": 5,
-    "image": "/img/rolex-submariner.jpg"
+    "imageUrl": "/img/rolex-submariner.jpg"
   },
   {
     "id": "2",
@@ -17,7 +17,7 @@
     "category": "Sport",
     "inStock": true,
     "stock": 20,
-    "image": "/img/casio-gshock.jpg"
+    "imageUrl": "/img/casio-gshock.jpg"
   },
   {
     "id": "3",
@@ -27,6 +27,6 @@
     "category": "Classic",
     "inStock": false,
     "stock": 0,
-    "image": "/img/seiko-presage.jpg"
+    "imageUrl": "/img/seiko-presage.jpg"
   }
 ]
