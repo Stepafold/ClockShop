@@ -1,0 +1,25 @@
+[
+  {
+    "id": "1774355021783",
+    "userId": "user123",
+    "items": [
+      {
+        "productId": "1",
+        "product": {
+          "id": "1",
+          "name": "Тестовые часы",
+          "price": 100
+        },
+        "quantity": 2,
+        "priceAtOrder": 100
+      }
+    ],
+    "address": "ул. Тестовая, д.1",
+    "phone": "+1234567890",
+    "email": "test@example.com",
+    "paymentMethod": "card",
+    "total": 200,
+    "status": "pending",
+    "createdAt": "2026-03-24T12:23:41.777Z"
+  }
+]

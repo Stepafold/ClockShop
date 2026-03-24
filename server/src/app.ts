@@ -1,6 +1,7 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import orderRoutes from './routes/orderRoutes';
 const app = express();
 
 // middleware
@@ -10,6 +11,7 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(cookieParser());
+app.use('/api', orderRoutes);
 
 
 // health check
