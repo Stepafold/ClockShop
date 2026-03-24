@@ -15,8 +15,16 @@ export class ProductCard {
 	}
 
 	private async addToCart(quantity: number): Promise<void> {
+		const btn = this.element.querySelector('.add-to-cart-btn') as HTMLButtonElement;
+		const originalText = btn.textContent;
 		try {
 			await api.addToCart(this.product.id, quantity);
+			btn.textContent = '✓ Добавлено!';
+			btn.style.backgroundColor = '#28a745';
+			setTimeout(() => {
+				btn.textContent = originalText;
+				btn.style.backgroundColor = '';
+			}, 2000);
 			if (this.onCartUpdate) this.onCartUpdate();
 		} catch (error) {
 			alert('Ошибка добавления в корзину. Возможно, вы не авторизованы.');

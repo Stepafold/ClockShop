@@ -105,6 +105,12 @@ export class HomePage {
 	}
 
 	private renderProductList(): void {
+		const loading = this.container.querySelector('.loading');
+		if (loading) loading.remove();
+
+		const existingGrid = this.container.querySelector('.products-grid');
+		if (existingGrid) existingGrid.remove();
+
 		const productsGrid = document.createElement('div');
 		productsGrid.className = 'products-grid';
 		productsGrid.innerHTML = '';
@@ -119,8 +125,6 @@ export class HomePage {
 			this.productCards.push(card);
 		}
 
-		const existingGrid = this.container.querySelector('.products-grid');
-		if (existingGrid) existingGrid.remove();
 		this.container.appendChild(productsGrid);
 	}
 }
