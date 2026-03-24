@@ -19,7 +19,7 @@ class CartService extends FileService<CartStorage> {
   private async enrichCart(cartStorage: CartStorage): Promise<Cart> {
     const enrichedItems: CartItem[] = await Promise.all(
       cartStorage.items.map(async (item) => {
-        const product = await productsDB.getById(item.productId);
+        const product = await productsDB.findById(item.productId);
         return {
           productId: item.productId,
           quantity: item.quantity,
