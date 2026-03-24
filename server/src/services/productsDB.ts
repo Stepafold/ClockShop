@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import type { Product } from '../../../shared/types/product';
+import type { Product } from '../shared/types/product';
 
 const PRODUCTS_FILE = path.join(__dirname, '../../data/products.json');
 
