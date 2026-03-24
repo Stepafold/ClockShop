@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { Session } from '../shared/types/user';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
-const SESSION_DURATION = 10 * 60; // 10 minutes in seconds
+const SESSION_DURATION = 10 * 60;
 
 export class SessionService {
   createToken(userId: string): string {
