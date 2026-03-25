@@ -26,7 +26,7 @@ export class AuthPage {
                 <button id="loginTab" class="active">Вход</button>
                 <button id="registerTab">Регистрация</button>
             </div>
-            <div id="authFormContainer" data-registration></div>
+            <div id="authFormContainer"></div>
         `;
 
 		const loginTab = this.container.querySelector('#loginTab') as HTMLButtonElement;
@@ -55,43 +55,43 @@ export class AuthPage {
 
 	private getLoginFormHtml(): string {
 		return `
-            <form id="loginForm">
+            <form id="loginForm" class="auth-form">
                 <div class="form-group">
                     <label for="loginEmail">Email</label>
-                    <input type="email" id="loginEmail" required>
+                    <input type="email" id="loginEmail" required placeholder="example@mail.com">
                 </div>
                 <div class="form-group">
                     <label for="loginPassword">Пароль</label>
-                    <input type="password" id="loginPassword" required>
+                    <input type="password" id="loginPassword" required placeholder="••••••">
                 </div>
-                <button type="submit">Войти</button>
+                <button type="submit" class="btn-primary">Войти</button>
+                <div id="authMessage"></div>
             </form>
-            <div id="authMessage"></div>
         `;
 	}
 
 	private getRegisterFormHtml(): string {
 		return `
-            <form id="registerForm">
+            <form id="registerForm" class="auth-form">
                 <div class="form-group">
                     <label for="regName">Имя</label>
-                    <input type="text" id="regName" required>
+                    <input type="text" id="regName" required placeholder="Иван Иванов">
                 </div>
                 <div class="form-group">
                     <label for="regEmail">Email</label>
-                    <input type="email" id="regEmail" required>
+                    <input type="email" id="regEmail" required placeholder="example@mail.com">
                 </div>
                 <div class="form-group">
                     <label for="regPhone">Телефон (необязательно)</label>
-                    <input type="tel" id="regPhone">
+                    <input type="tel" id="regPhone" placeholder="+7 (xxx) xxx-xx-xx">
                 </div>
                 <div class="form-group">
                     <label for="regPassword">Пароль</label>
-                    <input type="password" id="regPassword" required>
+                    <input type="password" id="regPassword" required placeholder="минимум 6 символов">
                 </div>
-                <button type="submit">Зарегистрироваться</button>
+                <button type="submit" class="btn-primary">Зарегистрироваться</button>
+                <div id="authMessage"></div>
             </form>
-            <div id="authMessage"></div>
         `;
 	}
 
@@ -110,6 +110,7 @@ export class AuthPage {
 				messageDiv.innerHTML = '<div class="success">Вход выполнен. Перенаправление...</div>';
 				setTimeout(() => {
 					new Router(this.appContainer).navigate('/');
+					window.dispatchEvent(new Event('cart-updated'));
 				}, 1000);
 			} catch (error) {
 				messageDiv.innerHTML = '<div class="error">Ошибка входа. Проверьте данные.</div>';
@@ -129,11 +130,17 @@ export class AuthPage {
 			const phone = (document.getElementById('regPhone') as HTMLInputElement).value;
 			const password = (document.getElementById('regPassword') as HTMLInputElement).value;
 
+			if (password.length < 6) {
+				messageDiv.innerHTML = '<div class="error">Пароль должен содержать минимум 6 символов</div>';
+				return;
+			}
+
 			try {
 				await api.register({ email, password, name, phone });
 				messageDiv.innerHTML = '<div class="success">Регистрация успешна. Выполняется вход...</div>';
 				setTimeout(() => {
 					new Router(this.appContainer).navigate('/');
+					window.dispatchEvent(new Event('cart-updated'));
 				}, 1000);
 			} catch (error) {
 				messageDiv.innerHTML = '<div class="error">Ошибка регистрации. Возможно, email уже используется.</div>';

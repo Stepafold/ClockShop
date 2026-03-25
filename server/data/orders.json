@@ -84,41 +84,13 @@
     "createdAt": "2026-03-24T14:31:08.810Z"
   },
   {
-    "id": "1774363124563",
-    "userId": "1774361419656",
-    "items": [
-      {
-        "productId": "1",
-        "quantity": 1,
-        "addedAt": "2026-03-24T14:38:30.968Z",
-        "product": {
-          "id": "1",
-          "name": "Rolex Submariner",
-          "description": "Classic luxury diver watch, automatic movement, water-resistant to 300m.",
-          "price": 8500,
-          "category": "Люкс",
-          "inStock": true,
-          "stock": 5,
-          "imageUrl": "/img/rolex-submariner.jpg"
-        }
-      }
-    ],
-    "address": "42 ул. Рафиева",
-    "phone": "fsadfasdf",
-    "email": "arseniyserzhan@icloud.com",
-    "paymentMethod": "cash",
-    "total": 8500,
-    "status": "pending",
-    "createdAt": "2026-03-24T14:38:44.563Z"
-  },
-  {
-    "id": "1774372102658",
-    "userId": "1774361419656",
+    "id": "1774381884070",
+    "userId": "1774381839692",
     "items": [
       {
         "productId": "2",
-        "quantity": 2,
-        "addedAt": "2026-03-24T17:08:08.874Z",
+        "quantity": 1,
+        "addedAt": "2026-03-24T19:51:02.800Z",
         "product": {
           "id": "2",
           "name": "Casio G-Shock",
@@ -127,16 +99,16 @@
           "category": "Спорт",
           "inStock": true,
           "stock": 20,
-          "imageUrl": "/img/casio-gshock.jpg"
+          "imageUrl": "/img/casio-gshock.png"
         }
       }
     ],
-    "address": "42 ул. Рафиева",
-    "phone": "+375 29 961 57 74",
-    "email": "arseniyserzhan@icloud.com",
+    "address": "Scripnikova",
+    "phone": "+375299085291",
+    "email": "eaxxeg@gmail.com",
     "paymentMethod": "card",
-    "total": 240,
+    "total": 120,
     "status": "pending",
-    "createdAt": "2026-03-24T17:08:22.658Z"
+    "createdAt": "2026-03-24T19:51:24.069Z"
   }
 ]

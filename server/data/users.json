@@ -6,5 +6,13 @@
     "name": "Арсений Сержан",
     "phone": "",
     "createdAt": "2026-03-24T14:10:19.656Z"
+  },
+  {
+    "id": "1774381839692",
+    "email": "eaxxeg@gmail.com",
+    "passwordHash": "$2b$10$rKOItqjAGCg5P19hqLn5MuaPQGFJdZhPep62Y354gwIDYxo9X2l.i",
+    "name": "Kaskevich Timur",
+    "phone": "+375299085291",
+    "createdAt": "2026-03-24T19:50:39.692Z"
   }
 ]

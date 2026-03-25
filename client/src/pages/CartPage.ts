@@ -23,12 +23,17 @@ export class CartPage {
 		const header = new Header(new Router(this.appContainer));
 		this.appContainer.appendChild(header.getElement());
 		this.appContainer.appendChild(this.container);
-		this.container.innerHTML = '<div class="loading">Загрузка корзины...</div>';
+		this.container.innerHTML = '<div class="loading-spinner">Загрузка корзины...</div>';
 
 		try {
 			await this.loadCart();
 			if (!this.cart || this.cart.items.length === 0) {
-				this.container.innerHTML = '<div class="empty-cart">Корзина пуста. <a href="/" data-link>Вернуться на главную</a></div>';
+				this.container.innerHTML = `
+                    <div class="empty-cart">
+                        <p>Ваша корзина пуста</p>
+                        <a href="/" data-link class="btn-primary">Вернуться на главную</a>
+                    </div>
+                `;
 				const link = this.container.querySelector('[data-link]');
 				if (link) {
 					link.addEventListener('click', (e) => {
@@ -54,7 +59,7 @@ export class CartPage {
             <div class="cart-items-list"></div>
             <div class="cart-summary">
                 <div class="total-price">Итого: <span id="total">0</span> ₽</div>
-                <button id="checkoutBtn" class="checkout-btn">Перейти к оформлению</button>
+                <button id="checkoutBtn" class="btn-primary checkout-btn">Перейти к оформлению</button>
             </div>
         `;
 
@@ -79,7 +84,7 @@ export class CartPage {
 		if (!this.cart) return;
 		const total = this.cart.items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
 		const totalSpan = this.container.querySelector('#total');
-		if (totalSpan) totalSpan.textContent = String(total);
+		if (totalSpan) totalSpan.textContent = total.toLocaleString();
 	}
 
 	private async refresh(): Promise<void> {

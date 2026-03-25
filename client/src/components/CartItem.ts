@@ -22,6 +22,7 @@ export class CartItem {
 		try {
 			await api.updateCartItem(this.item.productId, newQuantity);
 			this.onUpdate();
+			window.dispatchEvent(new Event('cart-updated'));
 		} catch (error: any) {
 			console.error('Update cart error:', error);
 			alert('Ошибка обновления количества. Попробуйте позже.');
@@ -33,24 +34,32 @@ export class CartItem {
 		try {
 			await api.removeFromCart(this.item.productId);
 			this.onUpdate();
+			window.dispatchEvent(new Event('cart-updated'));
 		} catch (error) {
 			alert('Ошибка удаления товара');
 		}
 	}
 
 	render(): void {
+		const imageHtml = this.item.product.imageUrl
+			? `<img src="${this.item.product.imageUrl}" alt="${this.item.product.name}" class="cart-item-image">`
+			: '<div class="cart-item-image no-image"></div>';
+
 		this.element.innerHTML = `
+            <div class="cart-item-image-wrapper">
+                ${imageHtml}
+            </div>
             <div class="cart-item-info">
-                <span class="cart-item-title" data-title="basket">${this.item.product.name}</span>
-                <span class="cart-item-price" data-price="basket">${this.item.product.price} ₽</span>
+                <div class="cart-item-title">${this.item.product.name}</div>
+                <div class="cart-item-price">${this.item.product.price.toLocaleString()} ₽</div>
             </div>
             <div class="cart-item-controls">
-                <button class="decr">-</button>
+                <button class="decr" aria-label="Уменьшить количество">−</button>
                 <span class="quantity">${this.item.quantity}</span>
-                <button class="incr">+</button>
-                <button class="remove">Удалить</button>
+                <button class="incr" aria-label="Увеличить количество">+</button>
+                <button class="remove" aria-label="Удалить">✕</button>
             </div>
-            <div class="cart-item-total">${this.item.product.price * this.item.quantity} ₽</div>
+            <div class="cart-item-total">${(this.item.product.price * this.item.quantity).toLocaleString()} ₽</div>
         `;
 
 		const decrBtn = this.element.querySelector('.decr') as HTMLButtonElement;
