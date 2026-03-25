@@ -19,32 +19,40 @@ export class ProductCard {
 		const originalText = btn.textContent;
 		try {
 			await api.addToCart(this.product.id, quantity);
-			btn.textContent = '✓ Добавлено!';
-			btn.style.backgroundColor = '#28a745';
+			btn.textContent = '✓ Добавлено';
+			btn.classList.add('added');
 			setTimeout(() => {
 				btn.textContent = originalText;
-				btn.style.backgroundColor = '';
+				btn.classList.remove('added');
 			}, 2000);
 			if (this.onCartUpdate) this.onCartUpdate();
+			window.dispatchEvent(new Event('cart-updated'));
 		} catch (error) {
 			alert('Ошибка добавления в корзину. Возможно, вы не авторизованы.');
 		}
 	}
 
 	render(): void {
-		// data-атрибуты для главной страницы
-		this.element.setAttribute('data-title', this.product.name);
-		this.element.setAttribute('data-price', String(this.product.price));
+		const imageHtml = this.product.imageUrl
+			? `<div class="product-image"><img src="${this.product.imageUrl}" alt="${this.product.name}"></div>`
+			: '<div class="product-image no-image"></div>';
 
 		this.element.innerHTML = `
-            <h3>${this.product.name}</h3>
-            <p class="price">${this.product.price} ₽</p>
-            <p class="description">${this.product.description}</p>
-            <p class="category">Категория: ${this.product.category}</p>
-            <p class="stock">${this.product.stock > 0 ? 'В наличии' : 'Нет в наличии'}</p>
-            <div class="add-to-cart-control">
-                <input type="number" class="qty" value="1" min="1" max="${this.product.stock}">
-                <button class="add-to-cart-btn">В корзину</button>
+            ${imageHtml}
+            <div class="product-info">
+                <h3>${this.product.name}</h3>
+                <p class="price">${this.product.price.toLocaleString()} ₽</p>
+                <p class="description">${this.product.description}</p>
+                <div class="product-meta">
+                    <span class="category">${this.product.category}</span>
+                    <span class="stock ${this.product.stock > 0 ? 'in-stock' : 'out-of-stock'}">
+                        ${this.product.stock > 0 ? 'В наличии' : 'Нет в наличии'}
+                    </span>
+                </div>
+                <div class="add-to-cart-control">
+                    <input type="number" class="qty" value="1" min="1" max="${this.product.stock}">
+                    <button class="add-to-cart-btn">В корзину</button>
+                </div>
             </div>
         `;
 

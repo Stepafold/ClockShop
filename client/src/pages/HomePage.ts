@@ -33,17 +33,11 @@ export class HomePage {
 
 	async render(): Promise<void> {
 		this.appContainer.innerHTML = '';
-		// Header уже добавлен извне? В нашем роутере он не добавляется. Нужно добавить Header здесь.
-		// Лучше сделать так: Header рендерится в index.ts один раз и обновляется через события.
-		// Для простоты оставим как в оригинале – пусть каждая страница сама рендерит Header.
-		// Но чтобы не дублировать код, вынесем создание Header в index.ts и будем обновлять через события.
-		// Однако для сохранения совместимости с вашим кодом я добавлю Header здесь (временно).
-		// В финальной версии лучше вынести Header в корневой компонент.
 		const { Header } = await import('../components/Header');
 		const header = new Header(new Router(this.appContainer));
 		this.appContainer.appendChild(header.getElement());
 		this.appContainer.appendChild(this.container);
-		this.container.innerHTML = '<div class="loading">Загрузка...</div>';
+		this.container.innerHTML = '<div class="loading-spinner">Загрузка товаров...</div>';
 
 		try {
 			await this.loadProducts();
@@ -68,22 +62,31 @@ export class HomePage {
 		const filterDiv = document.createElement('div');
 		filterDiv.className = 'filters';
 		filterDiv.innerHTML = `
-            <input type="text" id="search" placeholder="Поиск по названию или описанию" value="${this.filters.search}">
-            <select id="category">
-                <option value="">Все категории</option>
-                <option value="Люкс" ${this.filters.category === 'Люкс' ? 'selected' : ''}>Люкс</option>
-                <option value="Спорт" ${this.filters.category === 'Спорт' ? 'selected' : ''}>Спорт</option>
-                <option value="Классика" ${this.filters.category === 'Классика' ? 'selected' : ''}>Классика</option>
-            </select>
-            <label>
-                <input type="checkbox" id="inStock" ${this.filters.inStock ? 'checked' : ''}> Только в наличии
-            </label>
-            <select id="sort">
-                <option value="">Без сортировки</option>
-                <option value="asc" ${this.filters.sort === 'asc' ? 'selected' : ''}>Цена ↑</option>
-                <option value="desc" ${this.filters.sort === 'desc' ? 'selected' : ''}>Цена ↓</option>
-            </select>
-            <button id="applyFilters">Применить</button>
+            <div class="filter-group">
+                <input type="text" id="search" placeholder="Поиск по названию или описанию" value="${this.filters.search}">
+            </div>
+            <div class="filter-group">
+                <select id="category">
+                    <option value="">Все категории</option>
+                    <option value="Люкс" ${this.filters.category === 'Люкс' ? 'selected' : ''}>Люкс</option>
+                    <option value="Спорт" ${this.filters.category === 'Спорт' ? 'selected' : ''}>Спорт</option>
+                    <option value="Классика" ${this.filters.category === 'Классика' ? 'selected' : ''}>Классика</option>
+                </select>
+            </div>
+            <div class="filter-group checkbox">
+                <label>
+                    <input type="checkbox" id="inStock" ${this.filters.inStock ? 'checked' : ''}>
+                    <span>Только в наличии</span>
+                </label>
+            </div>
+            <div class="filter-group">
+                <select id="sort">
+                    <option value="">Без сортировки</option>
+                    <option value="asc" ${this.filters.sort === 'asc' ? 'selected' : ''}>Цена ↑</option>
+                    <option value="desc" ${this.filters.sort === 'desc' ? 'selected' : ''}>Цена ↓</option>
+                </select>
+            </div>
+            <button id="applyFilters" class="apply-filters-btn">Применить</button>
         `;
 
 		const searchInput = filterDiv.querySelector('#search') as HTMLInputElement;
@@ -92,22 +95,28 @@ export class HomePage {
 		const sortSelect = filterDiv.querySelector('#sort') as HTMLSelectElement;
 		const applyBtn = filterDiv.querySelector('#applyFilters') as HTMLButtonElement;
 
-		applyBtn.addEventListener('click', async () => {
+		const applyFilters = async () => {
 			this.filters.search = searchInput.value;
 			this.filters.category = categorySelect.value;
 			this.filters.inStock = inStockCheck.checked;
 			this.filters.sort = sortSelect.value as '' | 'asc' | 'desc';
-			await this.loadProducts();
-			this.renderProductList();
-		});
 
+			this.container.querySelector('.products-grid')?.remove();
+			const loadingDiv = document.createElement('div');
+			loadingDiv.className = 'loading-spinner';
+			loadingDiv.textContent = 'Загрузка...';
+			this.container.appendChild(loadingDiv);
+
+			await this.loadProducts();
+			loadingDiv.remove();
+			this.renderProductList();
+		};
+
+		applyBtn.addEventListener('click', applyFilters);
 		this.container.prepend(filterDiv);
 	}
 
 	private renderProductList(): void {
-		const loading = this.container.querySelector('.loading');
-		if (loading) loading.remove();
-
 		const existingGrid = this.container.querySelector('.products-grid');
 		if (existingGrid) existingGrid.remove();
 
@@ -119,10 +128,17 @@ export class HomePage {
 
 		for (const product of this.filteredProducts) {
 			const card = new ProductCard(product, () => {
-				// обновление корзины не требуется на главной
+				// обновление корзины
 			});
 			productsGrid.appendChild(card.getElement());
 			this.productCards.push(card);
+		}
+
+		if (this.filteredProducts.length === 0) {
+			const emptyMsg = document.createElement('div');
+			emptyMsg.className = 'empty-message';
+			emptyMsg.textContent = 'Товары не найдены';
+			productsGrid.appendChild(emptyMsg);
 		}
 
 		this.container.appendChild(productsGrid);

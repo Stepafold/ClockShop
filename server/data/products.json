@@ -1,32 +1,32 @@
 [
-  {
-    "id": "1",
-    "name": "Rolex Submariner",
-    "description": "Classic luxury diver watch, automatic movement, water-resistant to 300m.",
-    "price": 8500,
-    "category": "Люкс",
-    "inStock": true,
-    "stock": 5,
-    "imageUrl": "/img/rolex-submariner.jpg"
-  },
-  {
-    "id": "2",
-    "name": "Casio G-Shock",
-    "description": "Durable digital watch with shock resistance, 200m water resistance.",
-    "price": 120,
-    "category": "Спорт",
-    "inStock": true,
-    "stock": 20,
-    "imageUrl": "/img/casio-gshock.jpg"
-  },
-  {
-    "id": "3",
-    "name": "Seiko Presage",
-    "description": "Automatic dress watch with classic design, Japanese movement.",
-    "price": 450,
-    "category": "Классика",
-    "inStock": false,
-    "stock": 0,
-    "imageUrl": "/img/seiko-presage.jpg"
-  }
+	{
+		"id": "1",
+		"name": "Rolex Submariner",
+		"description": "Classic luxury diver watch, automatic movement, water-resistant to 300m.",
+		"price": 8500,
+		"category": "Люкс",
+		"inStock": true,
+		"stock": 5,
+		"imageUrl": "/img/rolex-submariner.png"
+	},
+	{
+		"id": "2",
+		"name": "Casio G-Shock",
+		"description": "Durable digital watch with shock resistance, 200m water resistance.",
+		"price": 120,
+		"category": "Спорт",
+		"inStock": true,
+		"stock": 20,
+		"imageUrl": "/img/casio-gshock.png"
+	},
+	{
+		"id": "3",
+		"name": "Seiko Presage",
+		"description": "Automatic dress watch with classic design, Japanese movement.",
+		"price": 450,
+		"category": "Классика",
+		"inStock": false,
+		"stock": 0,
+		"imageUrl": "/img/seiko-presage.png"
+	}
 ]
