@@ -42,7 +42,7 @@ export class Header {
 
 	render(): void {
 		this.element.innerHTML = `
-            <div class="logo">⌚ ClockShop</div>
+            <div class="logo">ClockShop</div>
             <nav>
                 <a href="/" data-link>Главная</a>
                 ${this.isLoggedIn ? `<a href="/cart" data-link>Корзина ${this.cartItemCount > 0 ? `<span class="cart-badge">${this.cartItemCount}</span>` : ''}</a>` : ''}

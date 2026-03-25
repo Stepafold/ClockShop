@@ -110,5 +110,76 @@
     "total": 120,
     "status": "pending",
     "createdAt": "2026-03-24T19:51:24.069Z"
+  },
+  {
+    "id": "1774439505212",
+    "userId": "1774361419656",
+    "items": [
+      {
+        "productId": "2",
+        "quantity": 2,
+        "addedAt": "2026-03-25T11:51:11.130Z",
+        "product": {
+          "id": "2",
+          "name": "Casio G-Shock",
+          "description": "Durable digital watch with shock resistance, 200m water resistance.",
+          "price": 120,
+          "category": "Спорт",
+          "inStock": true,
+          "stock": 20,
+          "imageUrl": "/img/casio-gshock.png"
+        }
+      },
+      {
+        "productId": "1",
+        "quantity": 2,
+        "addedAt": "2026-03-25T11:51:30.549Z",
+        "product": {
+          "id": "1",
+          "name": "Rolex Submariner",
+          "description": "Classic luxury diver watch, automatic movement, water-resistant to 300m.",
+          "price": 8500,
+          "category": "Люкс",
+          "inStock": true,
+          "stock": 5,
+          "imageUrl": "/img/rolex-submariner.png"
+        }
+      }
+    ],
+    "address": "42 ул. Рафиева",
+    "phone": "+375299615774",
+    "email": "arseniyserzhan@icloud.com",
+    "paymentMethod": "cash",
+    "total": 17240,
+    "status": "pending",
+    "createdAt": "2026-03-25T11:51:45.212Z"
+  },
+  {
+    "id": "1774439587270",
+    "userId": "1774361419656",
+    "items": [
+      {
+        "productId": "2",
+        "quantity": 1,
+        "addedAt": "2026-03-25T11:52:57.328Z",
+        "product": {
+          "id": "2",
+          "name": "Casio G-Shock",
+          "description": "Durable digital watch with shock resistance, 200m water resistance.",
+          "price": 120,
+          "category": "Спорт",
+          "inStock": true,
+          "stock": 20,
+          "imageUrl": "/img/casio-gshock.png"
+        }
+      }
+    ],
+    "address": "42 ул. Рафиева",
+    "phone": "+375299615774",
+    "email": "arseniyserzhan@icloud.com",
+    "paymentMethod": "cash",
+    "total": 120,
+    "status": "pending",
+    "createdAt": "2026-03-25T11:53:07.269Z"
   }
 ]

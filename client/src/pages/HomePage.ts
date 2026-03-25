@@ -37,7 +37,6 @@ export class HomePage {
 		const header = new Header(new Router(this.appContainer));
 		this.appContainer.appendChild(header.getElement());
 		this.appContainer.appendChild(this.container);
-		this.container.innerHTML = '<div class="loading-spinner">Загрузка товаров...</div>';
 
 		try {
 			await this.loadProducts();
