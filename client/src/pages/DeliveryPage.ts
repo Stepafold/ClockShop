@@ -51,7 +51,15 @@ export class DeliveryPage {
 		const formContainer = this.container.querySelector('#form-container') as HTMLElement;
 		const ordersContainer = this.container.querySelector('#orders-container') as HTMLElement;
 
-		const cart = await api.getCart();
+		let cart;
+		try {
+			cart = await api.getCart();
+		} catch (error: any) {
+			formContainer.innerHTML = '<p style="color: red;">Ошибка загрузки корзины. Попробуйте перезагрузить страницу.</p>';
+			await this.renderOrders(ordersContainer);
+			return;
+		}
+
 		if (!cart.items.length) {
 			formContainer.innerHTML = '<p class="empty-message">Корзина пуста. Добавьте товары перед оформлением.</p>';
 		} else {
@@ -147,8 +155,10 @@ export class DeliveryPage {
 				setTimeout(() => {
 					window.location.href = '/';
 				}, 2000);
-			} catch (error) {
-				messageDiv.innerHTML = '<div class="error">Ошибка оформления заказа</div>';
+			} catch (error: any) {
+				const errorMessage = error.message || 'Неизвестная ошибка';
+				messageDiv.innerHTML = `<div class="error">Ошибка оформления заказа: ${errorMessage}</div>`;
+				console.error('Order error:', error);
 			}
 		});
 	}

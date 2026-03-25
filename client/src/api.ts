@@ -82,7 +82,6 @@ export const api = {
 		const response = await fetch(`${API_BASE}/orders`, {
 			credentials: 'include'
 		});
-		if (!response.ok) return [];
 		return handleResponse<Order[]>(response);
 	},
 

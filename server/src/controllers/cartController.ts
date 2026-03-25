@@ -64,8 +64,8 @@ export const cartController = {
         return;
       }
 
-      if (quantity < 0) {
-        res.status(400).json({ message: 'Quantity cannot be negative' });
+      if (quantity <= 0) {
+        res.status(400).json({ message: 'Quantity must be greater than 0' });
         return;
       }
 
